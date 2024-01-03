@@ -1,6 +1,6 @@
 {
   "name": "@bevry/fs-write",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "license": "Artistic-2.0",
   "description": "Write contents to a file.",
   "homepage": "https://github.com/bevry/fs-write",
@@ -22,6 +22,7 @@
     "ecmascript",
     "es2015",
     "es2022",
+    "es5",
     "export-default",
     "file",
     "from",
@@ -88,6 +89,7 @@
     "Andrew Nesbitt (https://nesbitt.io) (https://github.com/andrew): Software engineer and researcher",
     "Balsa <hello@balsa.com> (https://balsa.com) (https://github.com/balsa): We're Balsa, and we're building tools for builders.",
     "Codecov <hello-codecov@sentry.io> (https://codecov.io) (https://github.com/codecov): Empower developers with tools to improve code quality and testing.",
+    "Frontend Masters <support@frontendmasters.com> (https://FrontendMasters.com) (https://github.com/FrontendMasters) (https://thanks.dev/d/gh/FrontendMasters): The training platform for web app engineering skills – from front-end to full-stack! 🚀",
     "Poonacha Medappa (https://poonachamedappa.com) (https://github.com/km-Poonacha)",
     "Rob Morris <rob@prismatik.com.au> (https://github.com/Rob-Morris)",
     "Sentry (https://sentry.io) (https://github.com/getsentry): Real-time crash reporting for your web apps, mobile apps, and games.",
@@ -102,6 +104,7 @@
     "dr.dimitru (https://veliovgroup.com) (https://github.com/dr-dimitru)",
     "Elliott Ditman (https://elliottditman.com) (https://github.com/elliottditman)",
     "entroniq (https://gitlab.com/entroniq) (https://thanks.dev/d/gl/entroniq)",
+    "Frontend Masters <support@frontendmasters.com> (https://FrontendMasters.com) (https://github.com/FrontendMasters) (https://thanks.dev/d/gh/FrontendMasters)",
     "GitHub (https://github.com/about) (https://github.com/github)",
     "Hunter Beast (https://cryptoquick.com) (https://github.com/cryptoquick)",
     "Jean-Luc Geering (https://github.com/jlgeering) (https://opencollective.com/jlgeering) (https://twitter.com/jlgeering)",
@@ -151,13 +154,28 @@
       }
     },
     {
-      "description": "TypeScript compiled against ES2015 for Node.js 4 || 6 || 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21 with Require for modules",
+      "description": "TypeScript compiled against ES2015 for Node.js 6 || 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21 with Require for modules",
       "directory": "edition-es2015",
       "entry": "index.js",
       "tags": [
         "compiled",
         "javascript",
         "es2015",
+        "require"
+      ],
+      "engines": {
+        "node": "6 || 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21",
+        "browsers": false
+      }
+    },
+    {
+      "description": "TypeScript compiled against ES5 for Node.js 4 || 6 || 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21 with Require for modules",
+      "directory": "edition-es5",
+      "entry": "index.js",
+      "tags": [
+        "compiled",
+        "javascript",
+        "es5",
         "require"
       ],
       "engines": {
@@ -226,30 +244,31 @@
   },
   "devDependencies": {
     "@bevry/fs-read": "^1.6.0",
-    "@types/node": "^20.10.5",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
     "assert-helpers": "^11.12.0",
     "eslint": "^8.56.0",
-    "eslint-config-bevry": "^5.3.0",
+    "eslint-config-bevry": "^5.5.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
-    "kava": "^7.8.0",
-    "make-deno-edition": "^2.2.0",
+    "kava": "^7.9.0",
+    "make-deno-edition": "^2.3.0",
     "prettier": "^3.1.1",
-    "projectz": "^4.1.1",
-    "promise-errback": "^1.3.0",
-    "typedoc": "^0.25.4",
+    "projectz": "^4.2.0",
+    "promise-errback": "^2.0.0",
+    "typedoc": "^0.25.6",
     "typescript": "5.3.3",
-    "valid-directory": "^4.8.0"
+    "valid-directory": "^4.9.0"
   },
   "scripts": {
     "our:clean": "rm -rf ./docs ./edition* ./es2015 ./es5 ./out ./.next",
-    "our:compile": "npm run our:compile:deno && npm run our:compile:edition-es2015 && npm run our:compile:edition-es2022 && npm run our:compile:edition-es2022-esm && npm run our:compile:edition-types",
+    "our:compile": "npm run our:compile:deno && npm run our:compile:edition-es2015 && npm run our:compile:edition-es2022 && npm run our:compile:edition-es2022-esm && npm run our:compile:edition-es5 && npm run our:compile:edition-types",
     "our:compile:deno": "make-deno-edition --attempt",
     "our:compile:edition-es2015": "tsc --module commonjs --target ES2015 --outDir ./edition-es2015 --project tsconfig.json && ( test ! -d edition-es2015/source || ( mv edition-es2015/source edition-temp && rm -rf edition-es2015 && mv edition-temp edition-es2015 ) ) && printf '%s' '{\"type\": \"commonjs\"}' > edition-es2015/package.json",
     "our:compile:edition-es2022": "tsc --module commonjs --target ES2022 --outDir ./edition-es2022 --project tsconfig.json && ( test ! -d edition-es2022/source || ( mv edition-es2022/source edition-temp && rm -rf edition-es2022 && mv edition-temp edition-es2022 ) ) && printf '%s' '{\"type\": \"commonjs\"}' > edition-es2022/package.json",
     "our:compile:edition-es2022-esm": "tsc --module ESNext --target ES2022 --outDir ./edition-es2022-esm --project tsconfig.json && ( test ! -d edition-es2022-esm/source || ( mv edition-es2022-esm/source edition-temp && rm -rf edition-es2022-esm && mv edition-temp edition-es2022-esm ) ) && printf '%s' '{\"type\": \"module\"}' > edition-es2022-esm/package.json",
+    "our:compile:edition-es5": "tsc --module commonjs --target ES5 --outDir ./edition-es5 --project tsconfig.json && ( test ! -d edition-es5/source || ( mv edition-es5/source edition-temp && rm -rf edition-es5 && mv edition-temp edition-es5 ) ) && printf '%s' '{\"type\": \"commonjs\"}' > edition-es5/package.json",
     "our:compile:edition-types": "tsc --emitDeclarationOnly --declaration --declarationMap --declarationDir ./edition-types --project tsconfig.json && ( test ! -d edition-types/source || ( mv edition-types/source edition-temp && rm -rf edition-types && mv edition-temp edition-types ) )",
     "our:deploy": "printf '%s\n' 'no need for this project'",
     "our:meta": "npm run our:meta:docs && npm run our:meta:projectz",

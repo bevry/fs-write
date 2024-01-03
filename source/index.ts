@@ -1,5 +1,5 @@
 // builtin
-import { writeFile as _writeFile } from 'fs'
+import { WriteFileOptions, writeFile as _writeFile } from 'fs'
 import { dirname as _dirname } from 'path'
 
 // external
@@ -8,12 +8,12 @@ import mkdirp from '@bevry/fs-mkdirp'
 
 /** Write contents to a file. */
 export default async function write(
-	path: string,
+	path: string | Array<string>,
 	contents: any,
-	mode?: number
+	opts: WriteFileOptions = {}
 ): Promise<void> {
 	if (Array.isArray(path)) {
-		return Promise.all(path.map((i) => write(i, contents, mode))).then(() => {})
+		return Promise.all(path.map((i) => write(i, contents, opts))).then(() => {})
 	}
 
 	// ensure parent directories exist
@@ -29,7 +29,7 @@ export default async function write(
 
 	// write the file
 	return new Promise(function (resolve, reject) {
-		_writeFile(path, contents, { encoding: 'utf8', mode }, function (err) {
+		_writeFile(path, contents, opts, function (err) {
 			if (err) {
 				return reject(new Errlop(`failed to write the file: ${path}`, err))
 			}
